@@ -95,6 +95,8 @@ router.get('/',  async (ctx, next) => {
   if (shop_data == null) {
     ctx.body = "No shop data";
   } else {
+    console.log('======= GET shop: ', shop);
+
     let api_res = await(callRESTAPI(ctx, shop, 'script_tags', null, 'GET'));
     let script_tags_flg = false;
     const src_url = `https://${ctx.request.hostname}/orders_num.js`;
