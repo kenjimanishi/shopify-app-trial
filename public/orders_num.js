@@ -50,14 +50,16 @@
   if ((typeof jQuery === 'undefined') || (parseFloat(jQuery.fn.jquery) < 1.7)) {
     loadScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', function(){
       jQuery191 = jQuery.noConflict(true);
-      if (window.location.pathname.indexOf('/products/') !== -1) {
+      // if (window.location.pathname.indexOf('/products/') !== -1) {
+      if (window.location.pathname.match('/\/products/(?!.*/).*$/')) {
         insertOrdersNumBanner(jQuery191);
       } else {
         updateOrdersData(jQuery191);
       }
     });
   } else {
-    if (window.location.pathname.indexOf('/products/') !== -1) {
+    // if (window.location.pathname.indexOf('/products/') !== -1) {
+    if (window.location.pathname.match('/\/products/(?!.*/).*$/')) {
       insertOrdersNumBanner(jQuery);
     } else {
       updateOrdersData(jQuery);
