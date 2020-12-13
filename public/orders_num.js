@@ -51,7 +51,9 @@
     loadScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', function(){
       jQuery191 = jQuery.noConflict(true);
       // if (window.location.pathname.indexOf('/products/') !== -1) {
-      if (window.location.pathname.match('/\/products/(?!.*/).*$/')) {
+
+      console.log('Regex match 1: ', window.location.pathname.match('/\/products/(?!.*/).*$/'))
+      if (window.location.pathname.match('/\/products/(?!.*/).*$/') !== null) {
         insertOrdersNumBanner(jQuery191);
       } else {
         updateOrdersData(jQuery191);
@@ -59,7 +61,9 @@
     });
   } else {
     // if (window.location.pathname.indexOf('/products/') !== -1) {
-    if (window.location.pathname.match('/\/products/(?!.*/).*$/')) {
+    console.log('Regex match 2: ', window.location.pathname.match('/\/products/(?!.*/).*$/'))
+
+    if (window.location.pathname.match('/\/products/(?!.*/).*$/') !== null) {
       insertOrdersNumBanner(jQuery);
     } else {
       updateOrdersData(jQuery);
