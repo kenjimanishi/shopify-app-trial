@@ -60,7 +60,7 @@
     if (window.location.pathname.indexOf('/products/') !== -1) {
       insertOrdersNumBanner(jQuery);
     } else {
-      updateOrdersData(jQuery191);
+      updateOrdersData(jQuery);
     }
   }
 })();
