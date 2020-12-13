@@ -27,8 +27,6 @@
     $('body').prepend('<div class="banner-of-order-quantity">この商品は本日 <span id="sales-num"><img class="loading" alt="loading" width="15" height="15" style="margin-bottom: -1.4px;" src="https://arcane-oasis-29051.herokuapp.com/loading.gif" /></span> 件のご注文をいただいております</div>');
     $('head').prepend('<style>.banner-of-order-quantity { text-align: center; padding: 5px; background: #737373; color: #fff; } .content { padding: 16px; } .sticky { position: fixed; top: 0; width: 100%} .sticky + .content { padding-top: 102px; }</style>');
 
-    console.log('============== product_handle 2: ', product_handle);
-    // const product_handle = path.replace(/\/products\//g, '');
     $.getJSON(`/apps/orders?product_handle=${encodeURI(product_handle)}`, function(){})
       .done(function(json) {
         $('#sales-num').html(json.order_count);
@@ -53,7 +51,6 @@
   if (banner_visible) {
     product_handle = banner_visible[0].replace(/\/products\//g, '');
   }
-  console.log('============== product_handle 1: ', product_handle);
 
   if ((typeof jQuery === 'undefined') || (parseFloat(jQuery.fn.jquery) < 1.7)) {
     loadScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', function(){
