@@ -53,7 +53,7 @@
       // if (window.location.pathname.indexOf('/products/') !== -1) {
 
       console.log('Regex match 1: ', window.location.pathname.match('/\/products/(?!.*/).*$/'))
-      if (window.location.pathname.match('/\/products/(?!.*/).*$/') !== null) {
+      if (window.location.pathname.match('/\/products/(?!/).*$/') !== null) {
         insertOrdersNumBanner(jQuery191);
       } else {
         updateOrdersData(jQuery191);
@@ -63,7 +63,7 @@
     // if (window.location.pathname.indexOf('/products/') !== -1) {
     console.log('Regex match 2: ', window.location.pathname.match('/\/products/(?!.*/).*$/'))
 
-    if (window.location.pathname.match('/\/products/(?!.*/).*$/') !== null) {
+    if (window.location.pathname.match('/\/products/(?!/).*$/') !== null) {
       insertOrdersNumBanner(jQuery);
     } else {
       updateOrdersData(jQuery);
