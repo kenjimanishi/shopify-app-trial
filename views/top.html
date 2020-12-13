@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Top</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@shopify/polaris@4.14.0/styles.min.css"
+  />
+  <!-- My own i18n script -->
+  <script src="/i18n.js"></script>
+  <script src="https://unpkg.com/@shopify/app-bridge"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+  <!-- https://polaris.shopify.com/components/ -->
+  <div style="--top-bar-background:#00848e; --top-bar-background-lighter:#1d9ba4; --top-bar-color:#f9fafb; --p-frame-offset:0px;">
+    <div class="Polaris-Page">
+      <div class="Polaris-Page-Header Polaris-Page-Header--separator">
+        <div class="Polaris-Page-Header__MainContent">
+          <div class="Polaris-Page-Header__TitleActionMenuWrapper">
+            <div class="Polaris-Page-Header__TitleWrapper">
+              <div>
+                <div class="Polaris-Header-Title__TitleAndSubtitleWrapper">
+                  <div class="Polaris-Header-Title">
+                    <h1 class="Polaris-DisplayText Polaris-DisplayText--sizeLarge"><span class="Polaris-TextStyle--variationStrong">設定</span></h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="Polaris-Page__Content">
+        <div class="Polaris-Layout">
+          <div class="Polaris-Layout__AnnotatedSection">
+            <div class="Polaris-Layout__AnnotationWrapper">
+              <div class="Polaris-Layout__Annotation">
+                <div class="Polaris-TextContainer">
+                  <h2 class="Polaris-Heading">商品ページへのバナー表示</h2>
+                </div>
+              </div>
+              <div class="Polaris-Layout__AnnotationContent">
+                <div style="--top-bar-background:#00848e; --top-bar-background-lighter:#1d9ba4; --top-bar-color:#f9fafb; --p-frame-offset:0px;">
+                  <div class="Polaris-Stack Polaris-Stack--vertical">
+                    <div class="Polaris-Stack__Item">
+                      <div><label class="Polaris-Choice" for="enable"><span class="Polaris-Choice__Control"><span class="Polaris-RadioButton"><input id="enable" name="setting" type="radio" class="Polaris-RadioButton__Input" aria-describedby="enableHelpText" value="enable" checked=""><span class="Polaris-RadioButton__Backdrop"></span><span class="Polaris-RadioButton__Icon"></span></span></span><span class="Polaris-Choice__Label">表示する</span></label>
+                        <div class="Polaris-Choice__Descriptions">
+                          <div class="Polaris-Choice__HelpText" id="enableHelpText">本日付けの注文数を表示します</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="Polaris-Stack__Item">
+                      <div><label class="Polaris-Choice" for="disable"><span class="Polaris-Choice__Control"><span class="Polaris-RadioButton"><input id="disable" name="setting" type="radio" class="Polaris-RadioButton__Input" aria-describedby="disableHelpText" value="disable"><span class="Polaris-RadioButton__Backdrop"></span><span class="Polaris-RadioButton__Icon"></span></span></span><span class="Polaris-Choice__Label">表示しない</span></label>
+                        <div class="Polaris-Choice__Descriptions">
+                          <div class="Polaris-Choice__HelpText" id="disableHelpText">注文の有無に関わらず表示しません</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="Polaris-Page__Content">
+              <img class="banner" src="https://arcane-oasis-29051.herokuapp.com/banner.png">
+            </div>
+          </div>
+        </div>
+        <!-- PageActions -->
+        <div style="--top-bar-background:#00848e; --top-bar-background-lighter:#1d9ba4; --top-bar-color:#f9fafb; --p-frame-offset:0px;">
+          <div class="Polaris-PageActions">
+            <div class="Polaris-Stack Polaris-Stack--spacingTight Polaris-Stack--distributionTrailing">
+              <!-- Save Button -->
+              <div class="Polaris-Stack__Item">
+                <button type="button" class="Polaris-Button Polaris-Button--primary Polaris-Button--disabled" disabled="" id="myButton">
+                  <span class="Polaris-Button__Content">
+                    <span class="Polaris-Button__Text">
+                      保存
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const AppBridge = window['app-bridge'];
+    const createApp = AppBridge.createApp;
+    const actions = AppBridge.actions;
+    const Toast = actions.Toast;
+    const apiKey = '<%= api_key %>';
+    const shopOrigin = '<%= shop %>';
+    const scriptTagsFlg = '<%= script_tags_flg %>';
+    const app = createApp({
+        apiKey: apiKey,
+        shopOrigin: shopOrigin
+    });
+    const toastNotice = Toast.create(app, {
+      message: '保存しました',
+      duration: 2000,
+    });
+    const toastError = Toast.create(app, {
+      message: 'エラーが発生しました',
+      duration: 2000,
+      isError: true,
+    });
+
+    $(function() {
+      if (scriptTagsFlg === 'true') {
+        $('input[name=setting]').val(['enable']);
+        $('.banner').css('visibility','visible');
+      } else {
+        $('input[name=setting]').val(['disable']);
+        $('.banner').css('visibility','hidden');
+      }
+
+      let default_val = $('input[name=setting]:checked').val();
+      $('input[name=setting]:radio').change(function() {
+        $('#myButton').toggleClass('Polaris-Button--disabled');
+        $('#myButton').prop('disabled', $('input[name=setting]:checked').val() === default_val);
+        $('.banner').visibleToggle();
+      });
+
+      $('#myButton').on('click', function() {
+        $('#myButton').toggleClass('Polaris-Button--disabled');
+        $('#myButton').html('保存中')
+
+        const action = ($('input[name=setting]:checked').val() === 'enable') ? 'insert' : 'delete';
+        const setting = $.post('/ajax', {
+          shop: shopOrigin,
+          action: action
+        });
+
+        setting.done(function() {
+            $('#myButton').prop('disabled', true);
+            default_val = $('input[name=setting]:checked').val();
+            toastNotice.dispatch(Toast.Action.SHOW);
+          })
+          .fail(function() {
+            $('#myButton').toggleClass('Polaris-Button--disabled');
+            toastError.dispatch(Toast.Action.SHOW);
+          })
+          .always(function() {
+            $('#myButton').html('保存')
+          });
+      });
+
+      $.fn.visibleToggle = function () {
+        return this.css('visibility', function (i, visible) {
+          return visible == 'visible' ? 'hidden' : 'visible';
+        });
+      };
+    });
+  </script>
+</body>
+</html>
