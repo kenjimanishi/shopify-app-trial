@@ -188,7 +188,7 @@ router.get('/callback',  async (ctx, next) => {
       }
     }`));
     res.orders_date = getToday();
-    res.order_name_lastest = latest_order_res.data.orders.edges[0].node.name;
+    res.order_name_lastest = latest_order_res.data.orders.edges.length > 0 ? latest_order_res.data.orders.edges[0].node.name : '';
     res.orders = {};
     await getOrdersPerProduct(ctx, shop, res);
 
