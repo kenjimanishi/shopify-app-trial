@@ -95,10 +95,12 @@ router.get('/',  async (ctx, next) => {
   if (shop_data == null) {
     ctx.body = "No shop data";
   } else {
-    console.log('======= GET ctx: ', ctx);
+    // console.log('======= GET ctx: ', ctx);
     console.log('======= GET shop: ', shop);
 
     let api_res = await(callRESTAPI(ctx, shop, 'script_tags', null, 'GET'));
+
+    console.log('typeof api_res', typeof api_res);
     if (api_res.match(/Error/)) {
       ctx.status = 400;
       return;
