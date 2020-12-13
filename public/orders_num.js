@@ -23,13 +23,11 @@
     document.getElementsByTagName("head")[0].appendChild(script);
   };
 
-  const insertOrdersNumBanner = function($){
+  const insertOrdersNumBanner = function($, pathName){
     $('body').prepend('<div class="banner-of-order-quantity">この商品は本日 <span id="sales-num"><img class="loading" alt="loading" width="15" height="15" style="margin-bottom: -1.4px;" src="https://arcane-oasis-29051.herokuapp.com/loading.gif" /></span> 件のご注文をいただいております</div>');
     $('head').prepend('<style>.banner-of-order-quantity { text-align: center; padding: 5px; background: #737373; color: #fff; } .content { padding: 16px; } .sticky { position: fixed; top: 0; width: 100%} .sticky + .content { padding-top: 102px; }</style>');
 
-    const temp = window.location.pathname.match('\/products/(?!/).*$');
-    // const product_handle = window.location.pathname.replace(/\/products\//g, '');
-    const product_handle = temp[0].replace(/\/products\//g, '');
+    const product_handle = pathName.replace(/\/products\//g, '');
     $.getJSON(`/apps/orders?product_handle=${encodeURI(product_handle)}`, function(){})
       .done(function(json) {
         $('#sales-num').html(json.order_count);
@@ -49,22 +47,19 @@
       });
   };
 
+  const banner_visible = window.location.pathname.match('\/products/(?!/).*$');
   if ((typeof jQuery === 'undefined') || (parseFloat(jQuery.fn.jquery) < 1.7)) {
     loadScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', function(){
       jQuery191 = jQuery.noConflict(true);
-      // if (window.location.pathname.indexOf('/products/') !== -1) {
-      console.log('Regex match 1: ', window.location.pathname.match('\/products/(?!/).*$'))
-      if (window.location.pathname.match('\/products/(?!/).*$')) {
-        insertOrdersNumBanner(jQuery191);
+      if (banner_visible) {
+        insertOrdersNumBanner(jQuery191, banner_visible);
       } else {
         updateOrdersData(jQuery191);
       }
     });
   } else {
-    // if (window.location.pathname.indexOf('/products/') !== -1) {
-    console.log('Regex match 2: ', window.location.pathname.match('\/products/(?!/).*$'))
-    if (window.location.pathname.match('\/products/(?!/).*$')) {
-      insertOrdersNumBanner(jQuery);
+    if (banner_visible) {
+      insertOrdersNumBanner(jQuery, banner_visible);
     } else {
       updateOrdersData(jQuery);
     }
