@@ -234,7 +234,7 @@ router.get('/proxy',  async (ctx, next) => {
       }
     }
   }`));
-  const order_name_lastest = graphql_more_latest_order_res.data.orders.edges[0].node.name;
+  const order_name_lastest = graphql_more_latest_order_res.data.orders.edges.length > 0 ? graphql_more_latest_order_res.data.orders.edges[0].node.name : '';
   console.log('order_name_lastest: ', order_name_lastest);
 
   if (
