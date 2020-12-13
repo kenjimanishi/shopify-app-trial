@@ -460,7 +460,8 @@ const accessEndpoint = function(ctx, endpoint, req, token = null, content_type =
     // Failure callback
     var catch_func = function(e){
       console.log(`accessEndpoint Error: ${e}`);
-      return resolve(e);
+      // return resolve(e);
+      return reject(e);
     };
     let headers = {};
     headers['Content-Type'] = content_type;
