@@ -88,27 +88,16 @@ router.get('/',  async (ctx, next) => {
     return;
   }
 
-  let shop = ctx.request.query.shop;
-  let locale = ctx.request.query.locale;
-
-  var shop_data = await(getDB(shop));
+  const shop = ctx.request.query.shop;
+  const locale = ctx.request.query.locale;
+  const shop_data = await(getDB(shop));
   if (shop_data == null) {
     ctx.body = "No shop data";
   } else {
-    // console.log('======= GET ctx: ', ctx);
-    console.log('======= GET shop: ', shop);
-
-    let api_res = await(callRESTAPI(ctx, shop, 'script_tags', null, 'GET'));
-
-    console.log('======= GET script_tags api_res: ', api_res);
-    console.log('typeof api_res', typeof api_res);
-    if (api_res.match(/Error/)) {
-      ctx.status = 400;
-      return;
-    }
-
+    const api_res = await(callRESTAPI(ctx, shop, 'script_tags', null, 'GET'));
     let script_tags_flg = false;
     const src_url = `https://${ctx.request.hostname}/orders_num.js`;
+
     if (api_res.script_tags.length > 0) {
       api_res.script_tags.forEach(script_tag => {
         script_tags_flg = (script_tag.src === src_url) ? true : false;
