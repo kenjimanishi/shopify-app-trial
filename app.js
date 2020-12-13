@@ -99,6 +99,11 @@ router.get('/',  async (ctx, next) => {
     console.log('======= GET shop: ', shop);
 
     let api_res = await(callRESTAPI(ctx, shop, 'script_tags', null, 'GET'));
+    if (api_res.match(/Error/)) {
+      ctx.status = 400;
+      return;
+    }
+
     let script_tags_flg = false;
     const src_url = `https://${ctx.request.hostname}/orders_num.js`;
 
