@@ -100,6 +100,7 @@ router.get('/',  async (ctx, next) => {
 
     let api_res = await(callRESTAPI(ctx, shop, 'script_tags', null, 'GET'));
 
+    console.log('======= GET script_tags api_res: ', api_res);
     console.log('typeof api_res', typeof api_res);
     if (api_res.match(/Error/)) {
       ctx.status = 400;
@@ -108,9 +109,6 @@ router.get('/',  async (ctx, next) => {
 
     let script_tags_flg = false;
     const src_url = `https://${ctx.request.hostname}/orders_num.js`;
-
-    console.log('======= GET script_tags api_res: ', api_res);
-
     if (api_res.script_tags.length > 0) {
       api_res.script_tags.forEach(script_tag => {
         script_tags_flg = (script_tag.src === src_url) ? true : false;
