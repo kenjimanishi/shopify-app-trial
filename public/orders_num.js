@@ -23,11 +23,11 @@
     document.getElementsByTagName("head")[0].appendChild(script);
   };
 
-  const insertOrdersNumBanner = function($, pathName){
+  const insertOrdersNumBanner = function($, path){
     $('body').prepend('<div class="banner-of-order-quantity">この商品は本日 <span id="sales-num"><img class="loading" alt="loading" width="15" height="15" style="margin-bottom: -1.4px;" src="https://arcane-oasis-29051.herokuapp.com/loading.gif" /></span> 件のご注文をいただいております</div>');
     $('head').prepend('<style>.banner-of-order-quantity { text-align: center; padding: 5px; background: #737373; color: #fff; } .content { padding: 16px; } .sticky { position: fixed; top: 0; width: 100%} .sticky + .content { padding-top: 102px; }</style>');
 
-    const product_handle = pathName.replace(/\/products\//g, '');
+    const product_handle = path.replace(/\/products\//g, '');
     $.getJSON(`/apps/orders?product_handle=${encodeURI(product_handle)}`, function(){})
       .done(function(json) {
         $('#sales-num').html(json.order_count);
@@ -52,14 +52,14 @@
     loadScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', function(){
       jQuery191 = jQuery.noConflict(true);
       if (banner_visible) {
-        insertOrdersNumBanner(jQuery191, banner_visible);
+        insertOrdersNumBanner(jQuery191, banner_visible[0]);
       } else {
         updateOrdersData(jQuery191);
       }
     });
   } else {
     if (banner_visible) {
-      insertOrdersNumBanner(jQuery, banner_visible);
+      insertOrdersNumBanner(jQuery, banner_visible[0]);
     } else {
       updateOrdersData(jQuery);
     }
