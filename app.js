@@ -95,6 +95,7 @@ router.get('/',  async (ctx, next) => {
   if (shop_data == null) {
     ctx.body = "No shop data";
   } else {
+    console.log('======= GET ctx: ', ctx);
     console.log('======= GET shop: ', shop);
 
     let api_res = await(callRESTAPI(ctx, shop, 'script_tags', null, 'GET'));
@@ -103,9 +104,11 @@ router.get('/',  async (ctx, next) => {
 
     console.log('======= GET script_tags api_res: ', api_res);
 
-    api_res.script_tags.forEach(script_tag => {
-      script_tags_flg = (script_tag.src === src_url) ? true : false;
-    });
+    if (api_res.script_tags.length > 0) {
+      api_res.script_tags.forEach(script_tag => {
+        script_tags_flg = (script_tag.src === src_url) ? true : false;
+      });
+    }
 
     await ctx.render('top', {
       shop: shop,
